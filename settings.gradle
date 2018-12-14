@@ -1,0 +1,5 @@
+rootProject.name = 'test'
+
+// include 'beam-sdks-java-io-cassandra'
+// project(":beam-sdks-java-io-cassandra").dir = file("../../../beam/sdks/java/io/cassandra")
+
