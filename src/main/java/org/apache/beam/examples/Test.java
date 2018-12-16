@@ -3,6 +3,9 @@ package org.apache.beam.examples;
 import java.util.Arrays;
 import java.util.UUID;
 
+import com.datastax.driver.core.querybuilder.Clause;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
+
 import org.apache.beam.runners.flink.FlinkPipelineOptions;
 import org.apache.beam.runners.flink.FlinkRunner;
 import org.apache.beam.sdk.Pipeline;
@@ -20,8 +23,8 @@ import org.apache.beam.sdk.values.TypeDescriptors;
 
 public class Test {
 	public static void main(String[] args) {
-		readCassandra();
 		// writeCassandra();
+		readCassandra();
 	}
 
 	public static void readCassandra() {
@@ -82,7 +85,7 @@ public class Test {
 
 /* To run cassandra locally in a container: */
 /*
- * docker run -d --name cassandra --network host cassandra
+docker run -d --name cassandra --network host cassandra
  */
 
 /* To create the schema - use `cqlsh` and run: */
