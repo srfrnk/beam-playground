@@ -14,12 +14,21 @@ task('write-cassandra', dependsOn: 'classes', type: JavaExec)
 {
     main = "org.apache.beam.examples.WriteCassandra"
     classpath = sourceSets.main.runtimeClasspath
+    systemProperty "runner", System.getProperty("runner")
 }
 
 task('read-cassandra', dependsOn: 'classes', type: JavaExec)
 {
     main = "org.apache.beam.examples.ReadCassandra"
     classpath = sourceSets.main.runtimeClasspath
+    systemProperty "runner", System.getProperty("runner")
+}
+
+task('join-from-cassandra', dependsOn: 'classes', type: JavaExec)
+{
+    main = "org.apache.beam.examples.JoinFromCassandra"
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperty "runner", System.getProperty("runner")
 }
 
 repositories {
@@ -32,6 +41,7 @@ dependencies {
 
     compile(group: 'org.apache.beam', name: 'beam-sdks-java-core', version:'2.8.0')
     compile(group: 'org.apache.beam', name: 'beam-runners-flink_2.11', version:'2.8.0')
+    compile(group: 'org.apache.beam', name: 'beam-runners-direct-java', version: '2.8.0')
 
     compile(group: 'org.apache.beam', name: 'beam-sdks-java-io-cassandra', version:'2.4.0') {
         exclude(module: '*')
