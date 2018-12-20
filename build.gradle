@@ -10,7 +10,17 @@ description = """"""
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-mainClassName = "org.apache.beam.examples.Test"
+task('write-cassandra', dependsOn: 'classes', type: JavaExec)
+{
+    main = "org.apache.beam.examples.WriteCassandra"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task('read-cassandra', dependsOn: 'classes', type: JavaExec)
+{
+    main = "org.apache.beam.examples.ReadCassandra"
+    classpath = sourceSets.main.runtimeClasspath
+}
 
 repositories {
      maven { url "https://repository.apache.org/content/repositories/snapshots/" }
@@ -23,9 +33,9 @@ dependencies {
     compile(group: 'org.apache.beam', name: 'beam-sdks-java-core', version:'2.8.0')
     compile(group: 'org.apache.beam', name: 'beam-runners-flink_2.11', version:'2.8.0')
 
-    // compile(group: 'org.apache.beam', name: 'beam-sdks-java-io-cassandra', version:'2.4.0') {
-        // exclude(module: '*')
-    // }
+    compile(group: 'org.apache.beam', name: 'beam-sdks-java-io-cassandra', version:'2.4.0') {
+        exclude(module: '*')
+    }
     compile(group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version:'3.6.0') {
         exclude(module: '*')
     }
