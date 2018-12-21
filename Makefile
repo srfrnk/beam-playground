@@ -18,3 +18,6 @@ drop-schema: FORCE
 
 truncate-data: FORCE
 	cqlsh -e "TRUNCATE test.table1; TRUNCATE test.table2;"
+
+run:
+	@gradle --console=plain join-from-cassandra -Drunner=direct > output/build.log 2>&1
