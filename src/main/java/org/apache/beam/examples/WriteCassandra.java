@@ -36,13 +36,13 @@ public class WriteCassandra {
 				}));
 
 		input.apply(MapElements.into(TypeDescriptor.of(Table1.class)).via(s -> {
-			return new Table1(String.format("%tT %s", System.currentTimeMillis(), s), UUID.randomUUID());
+			return new Table1(s, UUID.randomUUID());
 		})).apply(CassandraIO.<Table1>write().withHosts(Arrays.asList(Config.getCassandraHosts()))
 				.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())
 				.withEntity(Table1.class));
 
 		input.apply(MapElements.into(TypeDescriptor.of(Table2.class)).via(s -> {
-			return new Table2(String.format("%tT %s", System.currentTimeMillis(), s), UUID.randomUUID());
+			return new Table2(s, UUID.randomUUID());
 		})).apply(CassandraIO.<Table2>write().withHosts(Arrays.asList(Config.getCassandraHosts()))
 				.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())
 				.withEntity(Table2.class));
