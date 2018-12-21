@@ -16,7 +16,9 @@ public class ReadCassandra {
 		p.apply(CassandraIO.<Table1>read().withHosts(Arrays.asList(Config.getCassandraHosts()))
 				.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())
 				.withEntity(Table1.class).withTable(Config.getCassandraTable1())
-				.withCoder(SerializableCoder.of(Table1.class)))
+				.withCoder(SerializableCoder.of(Table1.class))
+				.withWhere(QueryBuilder.contains("data","Whether")))
+
 
 				.apply(MapElements.into(TypeDescriptors.strings()).via(s -> {
 					return String.format("%tT %s %s", System.currentTimeMillis(), s.data, s.an_id);
