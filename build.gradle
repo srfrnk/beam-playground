@@ -5,7 +5,7 @@ apply plugin: 'application'
 group = 'org.example'
 version = '0.1'
 
-description = """"""
+description = ""
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -46,9 +46,9 @@ dependencies {
     // compile(group: 'org.apache.beam', name: 'beam-sdks-java-io-cassandra', version:'2.4.0') {
     //     exclude(module: '*')
     // }
-    compile(group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version:'3.6.0') {
-        exclude(module: '*')
-    }
+    // compile(group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version:'3.6.0') {
+        // exclude(module: '*')
+    // }
     compile(group: 'com.datastax.cassandra', name: 'cassandra-driver-mapping', version:'3.6.0') {
         exclude(module: '*')
     }
@@ -58,7 +58,13 @@ dependencies {
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
-    compile group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
+    compile group: 'com.google.guava', name: 'guava', version: '19.0'
     compile group: 'io.netty', name: 'netty-all', version: '4.1.32.Final'
     compile group: 'com.codahale.metrics', name: 'metrics-core', version: '3.0.2'
+
+    compile group: 'org.lz4', name: 'lz4-java', version: '1.4.0'
+    compile group: 'org.hdrhistogram', name: 'HdrHistogram', version: '2.1.10'
+    compile group: 'com.github.jnr', name: 'jnr-ffi', version: '2.1.9'
+    compile group: 'com.github.jnr', name: 'jnr-posix', version: '3.0.47'
+
 }
