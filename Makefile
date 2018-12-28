@@ -6,7 +6,9 @@ link-beam-cassandra:
 
 link-cassandra-java-driver:
 	-mkdir -p ./src/main/java/com/datastax/driver
+	-mkdir -p ./src/main/resources/com/datastax/driver
 	-ln -s ../../../../../../../cassandra-java-driver/driver-core/src/main/java/com/datastax/driver/core ./src/main/java/com/datastax/driver/core
+	-ln -s ../../../../../../../cassandra-java-driver/driver-core/src/main/resources/com/datastax/driver/core ./src/main/resources/com/datastax/driver/core
 
 start-cassandra: FORCE
 	docker run -d --rm --name cassandra --network host cassandra
