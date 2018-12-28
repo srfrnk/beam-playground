@@ -2,6 +2,8 @@ package org.apache.beam.examples;
 
 import java.util.Arrays;
 
+import com.datastax.driver.core.querybuilder.QueryBuilder;
+
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.SerializableCoder;
 import org.apache.beam.sdk.io.TextIO;
@@ -15,7 +17,8 @@ public class ReadCassandra {
 		p.apply(CassandraIO.<Table1>read().withHosts(Arrays.asList(Config.getCassandraHosts()))
 				.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())
 				.withEntity(Table1.class).withTable(Config.getCassandraTable1())
-				.withCoder(SerializableCoder.of(Table1.class)).withWhere("data='Whether'"))
+				.withCoder(SerializableCoder.of(Table1.class))
+				.withWhere(QueryBuilder.eq("data","Whether")))
 
 				.apply(MapElements.into(TypeDescriptors.strings()).via(s -> {
 					return String.format("%tT %s %s", System.currentTimeMillis(), s.data, s.an_id);
