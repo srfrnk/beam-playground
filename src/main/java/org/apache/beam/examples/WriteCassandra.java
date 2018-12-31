@@ -15,7 +15,7 @@ import org.apache.beam.sdk.values.TypeDescriptor;
 
 public class WriteCassandra {
 	public static void main(String[] args) {
-		Pipeline p = Pipeline.create(Config.getPipelineOptions());
+		Pipeline p = Pipeline.create(Config.getPipelineOptions(false));
 
 		PCollection<String> input = p
 				.apply(Create.of(Arrays.asList("To be, or not to be: that is the question:",

@@ -21,3 +21,6 @@ truncate-data: FORCE
 
 run:
 	@gradle --console=plain join-from-cassandra -Drunner=direct > output/build.log 2>&1
+
+tt:
+	flink run -d -c org.apache.beam.examples.ReadKafka /tmp/beam-playground-0.1-all.jar

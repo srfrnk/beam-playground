@@ -11,7 +11,7 @@ import org.apache.beam.sdk.values.TypeDescriptors;
 
 public class ReadCassandra {
 	public static void main(String[] args) {
-		Pipeline p = Pipeline.create(Config.getPipelineOptions());
+		Pipeline p = Pipeline.create(Config.getPipelineOptions(false));
 
 		p.apply(CassandraIO.<Table1>read().withHosts(Arrays.asList(Config.getCassandraHosts()))
 				.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())

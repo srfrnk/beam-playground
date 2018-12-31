@@ -23,7 +23,7 @@ import org.apache.beam.sdk.values.TypeDescriptors;
 
 public class JoinFromCassandra {
 	public static void main(String[] args) {
-		Pipeline p = Pipeline.create(Config.getPipelineOptions());
+		Pipeline p = Pipeline.create(Config.getPipelineOptions(false));
 
 		PCollection<KV<String, Table1>> table1 = p
 				.apply("read table1",

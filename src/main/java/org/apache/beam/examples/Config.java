@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public class Config {
 	private static final Logger LOG = LoggerFactory.getLogger(Config.class);
 
-	public static PipelineOptions getPipelineOptions() {
+	public static PipelineOptions getPipelineOptions(boolean streaming) {
 		String runner = System.getProperty("runner");
 		switch (runner != null ? runner : "") {
 		case "direct": {
@@ -28,9 +28,9 @@ public class Config {
 			LOG.info("Using FlinkRunner");
 			FlinkPipelineOptions options = PipelineOptionsFactory.create().as(FlinkPipelineOptions.class);
 			options.setRunner(FlinkRunner.class);
-			options.setFilesToStage(Arrays.asList("build/libs/beam-playground-0.1.jar"));
-			options.setFlinkMaster("[local]");
-			options.setStreaming(false);
+			options.setFilesToStage(Arrays.asList("build/libs/beam-playground-0.1-all.jar"));
+			options.setFlinkMaster("localhost");
+			options.setStreaming(streaming);
 			return options;
 		}
 		}
@@ -39,7 +39,6 @@ public class Config {
 	public static String getCassandraHosts() {
 		return "localhost";
 	}
-
 
 	public static int getCassandraPort() {
 		return 9042;
@@ -55,5 +54,17 @@ public class Config {
 
 	public static String getCassandraTable2() {
 		return "table2";
+	}
+
+	public static String getKafkaUrls() {
+		return "localhost:9092";
+	}
+
+	public static String getKafkaTopic() {
+		return "test_topic";
+	}
+
+	public static Object getKafkaConsumerGroupId() {
+		return "test_grp_1";
 	}
 }

@@ -1,6 +1,9 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'application'
+plugins {
+    id 'java'
+    id 'maven'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '4.0.3'
+}
 
 group = 'org.example'
 version = '0.1'
@@ -10,23 +13,30 @@ description = """"""
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-task('write-cassandra', dependsOn: 'classes', type: JavaExec)
+task('write-cassandra', dependsOn: 'shadowJar', type: JavaExec)
 {
-    main = "org.apache.beam.examples.WriteCassandra"
+    mainClassName = main = "org.apache.beam.examples.WriteCassandra"
     classpath = sourceSets.main.runtimeClasspath
     systemProperty "runner", System.getProperty("runner")
 }
 
-task('read-cassandra', dependsOn: 'classes', type: JavaExec)
+task('read-cassandra', dependsOn: 'shadowJar', type: JavaExec)
 {
-    main = "org.apache.beam.examples.ReadCassandra"
+    mainClassName = main = "org.apache.beam.examples.ReadCassandra"
     classpath = sourceSets.main.runtimeClasspath
     systemProperty "runner", System.getProperty("runner")
 }
 
-task('join-from-cassandra', dependsOn: 'classes', type: JavaExec)
+task('read-kafka', dependsOn: 'shadowJar', type: JavaExec)
 {
-    main = "org.apache.beam.examples.JoinFromCassandra"
+    mainClassName = main = "org.apache.beam.examples.ReadKafka"
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperty "runner", System.getProperty("runner")
+}
+
+task('join-from-cassandra', dependsOn: 'shadowJar', type: JavaExec)
+{
+    mainClassName = main = "org.apache.beam.examples.JoinFromCassandra"
     classpath = sourceSets.main.runtimeClasspath
     systemProperty "runner", System.getProperty("runner")
 }
@@ -55,10 +65,17 @@ dependencies {
     compile(group: 'com.datastax.cassandra', name: 'cassandra-driver-extras', version:'3.6.0') {
         exclude(module: '*')
     }
+    compile group: 'org.apache.beam', name: 'beam-sdks-java-io-kafka', version: '2.8.0'
+    compile group: 'org.apache.flink', name: 'flink-streaming-java_2.11', version: '1.7.1'
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
     compile group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
     compile group: 'io.netty', name: 'netty-all', version: '4.1.32.Final'
     compile group: 'com.codahale.metrics', name: 'metrics-core', version: '3.0.2'
+}
+
+shadowJar {
+  zip64 true
+  mergeServiceFiles()
 }
