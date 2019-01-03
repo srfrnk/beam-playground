@@ -1,5 +1,15 @@
 FORCE:
 
+link-beam-cassandra:
+	-mkdir -p ./src/main/java/org/apache/beam
+	-ln -s ../../../../../../../../../beam/sdks/java/io/cassandra/src/main/java/org/apache/beam/sdk ./src/main/java/org/apache/beam/sdk
+
+link-cassandra-java-driver:
+	-mkdir -p ./src/main/java/com/datastax/driver
+	-mkdir -p ./src/main/resources/com/datastax/driver
+	-ln -s ../../../../../../../cassandra-java-driver/driver-core/src/main/java/com/datastax/driver/core ./src/main/java/com/datastax/driver/core
+	-ln -s ../../../../../../../cassandra-java-driver/driver-core/src/main/resources/com/datastax/driver/core ./src/main/resources/com/datastax/driver/core
+
 start-cassandra: FORCE
 	docker run -d --rm --name cassandra --network host cassandra
 
@@ -24,3 +34,6 @@ run:
 
 tt:
 	flink run -d -c org.apache.beam.examples.ReadKafka /tmp/beam-playground-0.1-all.jar
+
+tt1:
+	kubectl -n flink exec -it flink-jobmanager-759bf59658-sz8pc -- flink run -d -c org.apache.beam.examples.ReadKafka /tmp/beam-playground-0.1-all.jar

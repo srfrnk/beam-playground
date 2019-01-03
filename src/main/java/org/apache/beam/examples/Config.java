@@ -6,6 +6,8 @@ import org.apache.beam.runners.direct.DirectOptions;
 import org.apache.beam.runners.direct.DirectRunner;
 import org.apache.beam.runners.flink.FlinkPipelineOptions;
 import org.apache.beam.runners.flink.FlinkRunner;
+import org.apache.beam.runners.spark.SparkPipelineOptions;
+import org.apache.beam.runners.spark.SparkRunner;
 import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.slf4j.Logger;
@@ -33,6 +35,15 @@ public class Config {
 			options.setStreaming(streaming);
 			return options;
 		}
+		case "spark": {
+			LOG.info("Using SparkRunner");
+			SparkPipelineOptions options = PipelineOptionsFactory.create().as(SparkPipelineOptions.class);
+			options.setRunner(SparkRunner.class);
+			options.setFilesToStage(Arrays.asList("build/libs/beam-playground-0.1.jar"));
+			options.setSparkMaster("local[1]");
+			options.setStreaming(false);
+			return options;
+		}
 		}
 	}
 
@@ -58,6 +69,7 @@ public class Config {
 
 	public static String getKafkaUrls() {
 		return "localhost:9092";
+		// return "broker.kafka.svc.cluster.local:9092";
 	}
 
 	public static String getKafkaTopic() {
