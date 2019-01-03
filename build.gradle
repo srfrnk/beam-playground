@@ -34,7 +34,9 @@ task('join-from-cassandra', dependsOn: 'classes', type: JavaExec)
 repositories {
      maven { url "https://repository.apache.org/content/repositories/snapshots/" }
      maven { url "http://repo.maven.apache.org/maven2" }
+     maven { url "https://jitpack.io" }
 }
+
 dependencies {
     compile(group: 'org.apache.beam', name: 'beam-sdks-java-core', version:'2.8.0')
 
