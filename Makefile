@@ -35,5 +35,12 @@ run:
 tt:
 	flink run -d -c org.apache.beam.examples.ReadKafka /tmp/beam-playground-0.1-all.jar
 
-tt1:
-	kubectl -n flink exec -it flink-jobmanager-759bf59658-sz8pc -- flink run -d -c org.apache.beam.examples.ReadKafka /tmp/beam-playground-0.1-all.jar
+.ONESHELL:
+
+build-cassandra-java-driver-core:
+	cd ../cassandra-java-driver/driver-core
+	mvn clean package
+
+build-beam-cassandra:
+	cd ../beam/sdks/java/io/cassandra
+	gradle clean shadowJar

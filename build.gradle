@@ -44,7 +44,10 @@ task('join-from-cassandra', dependsOn: 'shadowJar', type: JavaExec)
 repositories {
      maven { url "https://repository.apache.org/content/repositories/snapshots/" }
      maven { url "http://repo.maven.apache.org/maven2" }
-     maven { url "https://jitpack.io" }
+
+    ivy {
+        artifactPattern "https://github.com/[organization]/[module]/raw/[revision]/[classifier]"
+    }
 }
 
 dependencies {
@@ -63,12 +66,18 @@ dependencies {
         exclude(module: '*')
     }
 
-    // compile(group: 'org.apache.beam', name: 'beam-sdks-java-io-cassandra', version:'2.4.0') {
-    //     exclude(module: '*')
-    // }
-    // compile(group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version:'3.6.0') {
-        // exclude(module: '*')
-    // }
+    // Use original maven JARs for beam-io-cassandra and cassandra-driver-core:
+    // compile(group: 'org.apache.beam', name: 'beam-sdks-java-io-cassandra', version:'2.4.0') { exclude(module: '*') }
+    // compile(group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version:'3.6.0') { exclude(module: '*') }
+
+    // Use github/srfrnk JARs for beam-io-cassandra and cassandra-driver-core:
+    // compile "srfrnk:beam:sf-v-1-0:sdks/java/io/cassandra/build/libs/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar"
+    // compile "srfrnk:java-driver:sf-v-1-0:driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT-shaded.jar"
+
+    // Use local FS JARs for beam-io-cassandra and cassandra-driver-core:
+    compile files("../beam/sdks/java/io/cassandra/build/libs/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
+    compile files("../cassandra-java-driver/driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT-shaded.jar")
+
     compile(group: 'com.datastax.cassandra', name: 'cassandra-driver-mapping', version:'3.6.0') {
         exclude(module: '*')
     }
