@@ -1,14 +1,10 @@
 FORCE:
 
-link-beam-cassandra:
-	-mkdir -p ./src/main/java/org/apache/beam
-	-ln -s ../../../../../../../../../beam/sdks/java/io/cassandra/src/main/java/org/apache/beam/sdk ./src/main/java/org/apache/beam/sdk
+clone-beam-cassandra:
+	cd .. && git clone git@github.com:srfrnk/beam.git
 
-link-cassandra-java-driver:
-	-mkdir -p ./src/main/java/com/datastax/driver
-	-mkdir -p ./src/main/resources/com/datastax/driver
-	-ln -s ../../../../../../../cassandra-java-driver/driver-core/src/main/java/com/datastax/driver/core ./src/main/java/com/datastax/driver/core
-	-ln -s ../../../../../../../cassandra-java-driver/driver-core/src/main/resources/com/datastax/driver/core ./src/main/resources/com/datastax/driver/core
+clone-cassandra-java-driver:
+	cd .. && git clone git@github.com:srfrnk/java-driver.git cassandra-java-driver
 
 start-cassandra: FORCE
 	docker run -d --rm --name cassandra --network host cassandra
