@@ -18,8 +18,8 @@ stop-cassandra: FORCE
 
 create-schema: FORCE
 	cqlsh -e "CREATE KEYSPACE IF NOT EXISTS test WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1}; \
-		CREATE TABLE IF NOT EXISTS test.table1 ( data text, an_id uuid, PRIMARY KEY(data) ); \
-		CREATE TABLE IF NOT EXISTS test.table2 ( data text, an_id uuid, PRIMARY KEY(data) );"
+		CREATE TABLE IF NOT EXISTS test.table1 ( data text, an_id uuid, my_date date, PRIMARY KEY(data) ); \
+		CREATE TABLE IF NOT EXISTS test.table2 ( data text, an_id uuid, my_date date, PRIMARY KEY(data) );"
 
 drop-schema: FORCE
 	cqlsh -e "DROP TABLE IF EXISTS test.table1;\
