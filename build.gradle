@@ -75,8 +75,14 @@ dependencies {
     // compile "srfrnk:java-driver:sf-v-1-0:driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT-shaded.jar"
 
     // Use local FS JARs for beam-io-cassandra and cassandra-driver-core:
-    compile files("../beam/sdks/java/io/cassandra/build/libs/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
-    compile files("../cassandra-java-driver/driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT-shaded.jar")
+    // compile files("../beam/sdks/java/io/cassandra/build/libs/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
+    // compile files("../cassandra-java-driver/driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT-shaded.jar")
+
+    // Use local FS java files for beam-io-cassandra and cassandra-driver-core:
+    compileJava {
+        source "../beam/sdks/java/io/cassandra/src/main"
+        source "../cassandra-java-driver/driver-core/src/main"
+    }
 
     compile(group: 'com.datastax.cassandra', name: 'cassandra-driver-mapping', version:'3.6.0') {
         exclude(module: '*')
@@ -89,7 +95,7 @@ dependencies {
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
-    compile group: 'com.google.guava', name: 'guava', version: '27.0-jre'
+    compile group: 'com.google.guava', name: 'guava', version: '19.0'
     compile group: 'io.netty', name: 'netty-all', version: '4.1.32.Final'
     compile group: 'com.codahale.metrics', name: 'metrics-core', version: '3.0.2'
 
