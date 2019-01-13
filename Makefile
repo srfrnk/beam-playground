@@ -33,8 +33,8 @@ tt:
 
 .ONESHELL:
 
-build-cassandra-java-driver-core:
-	cd ../cassandra-java-driver/driver-core
+build-cassandra-java-driver:
+	cd ../cassandra-java-driver
 	mvn clean package
 
 build-beam-cassandra:

@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 import org.apache.beam.runners.direct.DirectOptions;
 import org.apache.beam.runners.direct.DirectRunner;
-import org.apache.beam.runners.flink.FlinkPipelineOptions;
-import org.apache.beam.runners.flink.FlinkRunner;
-import org.apache.beam.runners.spark.SparkPipelineOptions;
-import org.apache.beam.runners.spark.SparkRunner;
+// import org.apache.beam.runners.flink.FlinkPipelineOptions;
+// import org.apache.beam.runners.flink.FlinkRunner;
+// import org.apache.beam.runners.spark.SparkPipelineOptions;
+// import org.apache.beam.runners.spark.SparkRunner;
 import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.slf4j.Logger;
@@ -19,14 +19,14 @@ public class Config {
 	public static PipelineOptions getPipelineOptions(boolean streaming) {
 		String runner = System.getProperty("runner");
 		switch (runner != null ? runner : "") {
+		default:
 		case "direct": {
 			LOG.info("Using DirectRunner");
 			DirectOptions options = PipelineOptionsFactory.create().as(DirectOptions.class);
 			options.setRunner(DirectRunner.class);
 			return options;
 		}
-		default:
-		case "flink": {
+/* 		case "flink": {
 			LOG.info("Using FlinkRunner");
 			FlinkPipelineOptions options = PipelineOptionsFactory.create().as(FlinkPipelineOptions.class);
 			options.setRunner(FlinkRunner.class);
@@ -34,16 +34,16 @@ public class Config {
 			options.setFlinkMaster("localhost");
 			options.setStreaming(streaming);
 			return options;
-		}
-		case "spark": {
-			LOG.info("Using SparkRunner");
-			SparkPipelineOptions options = PipelineOptionsFactory.create().as(SparkPipelineOptions.class);
-			options.setRunner(SparkRunner.class);
-			options.setFilesToStage(Arrays.asList("build/libs/beam-playground-0.1.jar"));
-			options.setSparkMaster("local[1]");
-			options.setStreaming(false);
-			return options;
-		}
+		} */
+		// case "spark": {
+			// LOG.info("Using SparkRunner");
+			// SparkPipelineOptions options = PipelineOptionsFactory.create().as(SparkPipelineOptions.class);
+			// options.setRunner(SparkRunner.class);
+			// options.setFilesToStage(Arrays.asList("build/libs/beam-playground-0.1.jar"));
+			// options.setSparkMaster("local[1]");
+			// options.setStreaming(false);
+			// return options;
+		// }
 		}
 	}
 

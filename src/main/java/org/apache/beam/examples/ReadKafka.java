@@ -1,4 +1,4 @@
-package org.apache.beam.examples;
+/* package org.apache.beam.examples;
 
 import java.util.Arrays;
 
@@ -35,3 +35,4 @@ public class ReadKafka {
 		p.run();
 	}
 }
+ */
