@@ -25,8 +25,12 @@ drop-schema: FORCE
 truncate-data: FORCE
 	cqlsh -e "TRUNCATE test.table1; TRUNCATE test.table2;"
 
+clear:
+	@clear
+
 run:
-	@gradle --console=plain join-from-cassandra -Drunner=direct > output/build.log 2>&1
+	gradle --refresh-dependencies clean write-cassandra -Drunner=direct
+	# @gradle --console=plain --refresh-dependencies clean write-cassandra -Drunner=flink
 
 tt:
 	flink run -d -c org.apache.beam.examples.WriteCassandra /tmp/beam-playground-0.1-all.jar
@@ -34,9 +38,7 @@ tt:
 .ONESHELL:
 
 build-cassandra-java-driver:
-	cd ../cassandra-java-driver
-	mvn clean package
+	mvn -f ../cassandra-java-driver clean package
 
 build-beam-cassandra:
-	cd ../beam/sdks/java/io/cassandra
-	gradle clean shadowJar
+	gradle -p ../beam/sdks/java/io/cassandra clean shadowJar

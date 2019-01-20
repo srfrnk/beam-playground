@@ -2,7 +2,7 @@ package org.apache.beam.examples;
 
 import java.util.Arrays;
 
-import com.datastax.driver.core.querybuilder.QueryBuilder;
+// import com.datastax.driver.core.querybuilder.QueryBuilder;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.SerializableCoder;
@@ -19,7 +19,8 @@ public class ReadCassandra {
 				.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())
 				.withEntity(Table1.class).withTable(Config.getCassandraTable1())
 				.withCoder(SerializableCoder.of(Table1.class))
-				.withWhere(QueryBuilder.eq("data","Whether")))
+				// .withWhere(QueryBuilder.eq("data","Whether"))
+				)
 
 				.apply(MapElements.into(TypeDescriptors.strings()).via(s -> {
 					return String.format("%tT %s %s", System.currentTimeMillis(), s.data, s.an_id);
