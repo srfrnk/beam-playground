@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../beam/sdks/java/io/cassandra"
+		},
+		{
+			"path": "../cassandra-java-driver"
+		}
+	],
+	"settings": {}
+}
