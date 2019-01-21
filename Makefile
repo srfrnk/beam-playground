@@ -29,8 +29,7 @@ clear:
 	@clear
 
 run:
-	gradle --refresh-dependencies clean write-cassandra -Drunner=direct
-	# @gradle --console=plain --refresh-dependencies clean write-cassandra -Drunner=flink
+	@gradle --console=plain --refresh-dependencies clean write-cassandra -Drunner=flink
 
 tt:
 	flink run -d -c org.apache.beam.examples.WriteCassandra /tmp/beam-playground-0.1-all.jar

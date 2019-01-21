@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 import org.apache.beam.runners.direct.DirectOptions;
 import org.apache.beam.runners.direct.DirectRunner;
-// import org.apache.beam.runners.flink.FlinkPipelineOptions;
-// import org.apache.beam.runners.flink.FlinkRunner;
+import org.apache.beam.runners.flink.FlinkPipelineOptions;
+import org.apache.beam.runners.flink.FlinkRunner;
 // import org.apache.beam.runners.spark.SparkPipelineOptions;
 // import org.apache.beam.runners.spark.SparkRunner;
 import org.apache.beam.sdk.options.PipelineOptions;
@@ -26,15 +26,15 @@ public class Config {
 			options.setRunner(DirectRunner.class);
 			return options;
 		}
-/* 		case "flink": {
+		case "flink": {
 			LOG.info("Using FlinkRunner");
 			FlinkPipelineOptions options = PipelineOptionsFactory.create().as(FlinkPipelineOptions.class);
 			options.setRunner(FlinkRunner.class);
 			options.setFilesToStage(Arrays.asList("build/libs/beam-playground-0.1-all.jar"));
-			options.setFlinkMaster("localhost");
+			options.setFlinkMaster("[local]");
 			options.setStreaming(streaming);
 			return options;
-		} */
+		}
 		// case "spark": {
 			// LOG.info("Using SparkRunner");
 			// SparkPipelineOptions options = PipelineOptionsFactory.create().as(SparkPipelineOptions.class);
