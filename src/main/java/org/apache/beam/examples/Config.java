@@ -19,19 +19,26 @@ public class Config {
 	public static PipelineOptions getPipelineOptions(boolean streaming) {
 		String runner = System.getProperty("runner");
 		switch (runner != null ? runner : "") {
-		default:
 		case "direct": {
 			LOG.info("Using DirectRunner");
 			DirectOptions options = PipelineOptionsFactory.create().as(DirectOptions.class);
 			options.setRunner(DirectRunner.class);
 			return options;
 		}
-		case "flink": {
-			LOG.info("Using FlinkRunner");
+		case "flink-local": {
+			LOG.info("Using FlinkRunner Local");
 			FlinkPipelineOptions options = PipelineOptionsFactory.create().as(FlinkPipelineOptions.class);
 			options.setRunner(FlinkRunner.class);
-			options.setFilesToStage(Arrays.asList("build/libs/beam-playground-0.1-all.jar"));
 			options.setFlinkMaster("[local]");
+			options.setStreaming(streaming);
+			return options;
+		}
+		default:
+		case "flink-cluster": {
+			LOG.info("Using FlinkRunner Cluster");
+			FlinkPipelineOptions options = PipelineOptionsFactory.create().as(FlinkPipelineOptions.class);
+			options.setRunner(FlinkRunner.class);
+			options.setFlinkMaster("localhost");
 			options.setStreaming(streaming);
 			return options;
 		}
