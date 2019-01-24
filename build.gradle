@@ -27,6 +27,13 @@ task('read-cassandra', dependsOn: 'shadowJar', type: JavaExec)
     systemProperty "runner", System.getProperty("runner")
 }
 
+task('read-write-cassandra', dependsOn: 'shadowJar', type: JavaExec)
+{
+    mainClassName = main = "org.apache.beam.examples.ReadWriteCassandra"
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperty "runner", System.getProperty("runner")
+}
+
 task('read-kafka', dependsOn: 'shadowJar', type: JavaExec)
 {
     mainClassName = main = "org.apache.beam.examples.ReadKafka"

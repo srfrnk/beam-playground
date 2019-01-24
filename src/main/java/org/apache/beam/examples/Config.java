@@ -38,7 +38,10 @@ public class Config {
 			LOG.info("Using FlinkRunner Cluster");
 			FlinkPipelineOptions options = PipelineOptionsFactory.create().as(FlinkPipelineOptions.class);
 			options.setRunner(FlinkRunner.class);
-			options.setFlinkMaster("localhost");
+			// options.setFlinkMaster("localhost");
+			options.setFlinkMaster("flink-jobmanager.flink:8081");
+			options.setFilesToStage(Arrays.asList("./build/libs/beam-playground-0.1-all.jar"));
+			options.setTempLocation("./tmp");
 			options.setStreaming(streaming);
 			return options;
 		}
@@ -55,7 +58,8 @@ public class Config {
 	}
 
 	public static String getCassandraHosts() {
-		return "localhost";
+		return "cassandra.cassandra";
+		// return "localhost";
 	}
 
 	public static int getCassandraPort() {

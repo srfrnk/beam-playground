@@ -29,10 +29,12 @@ clear:
 	@clear
 
 run:
-	@gradle --console=plain --refresh-dependencies clean write-cassandra -Drunner=flink
+	@gradle --console=plain --refresh-dependencies clean write-cassandra -Drunner=flink-local
 
 tt:
 	flink run -d -c org.apache.beam.examples.WriteCassandra /tmp/beam-playground-0.1-all.jar
+	kubectl cp ./src mgmt-0:/beam-playground/src
+	kubectl exec -it mgmt-0 -- bash -c cd /beam-playground && gradle write-cassandra -Drunner=flink-cluster
 
 .ONESHELL:
 
