@@ -41,7 +41,7 @@ public class Config {
 			// options.setFlinkMaster("localhost");
 			options.setFlinkMaster("flink-jobmanager.flink:8081");
 			options.setFilesToStage(Arrays.asList("./build/libs/beam-playground-0.1-all.jar"));
-			options.setTempLocation("./tmp");
+			// options.setTempLocation("./tmp");
 			options.setStreaming(streaming);
 			return options;
 		}

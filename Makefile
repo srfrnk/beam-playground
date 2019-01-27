@@ -32,7 +32,7 @@ run:
 	@gradle --console=plain --refresh-dependencies clean write-cassandra -Drunner=flink-local
 
 tt:
-	flink run -d -c org.apache.beam.examples.WriteCassandra /tmp/beam-playground-0.1-all.jar
+	flink run -d -c org.apache.beam.examples.ReadWriteCassandra build/libs/beam-playground-0.1-all.jar
 	kubectl cp ./src mgmt-0:/beam-playground/src && kubectl cp ./build.gradle mgmt-0:/beam-playground && kubectl exec -it mgmt-0 -- bash -c gradle -p /beam-playground read-write-cassandra -Drunner=flink-cluster
 
 .ONESHELL:
