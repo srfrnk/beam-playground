@@ -1,12 +1,19 @@
 {
 	"folders": [
 		{
+			"name": "beam-playground",
 			"path": "."
 		},
 		{
-			"path": "../beam/sdks/java/io/cassandra"
+			"name": "beam-cassandra",
+			"path": "/data/shahar/code/beam/sdks/java/io/cassandra"
 		},
 		{
+			"name": "beam",
+			"path": "/data/shahar/code/beam"
+		},
+		{
+			"name": "cassandra-java-driver",
 			"path": "../cassandra-java-driver"
 		}
 	],
