@@ -13,5 +13,7 @@
 			"path": "/data/shahar/code/beam"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic"
+	}
 }
