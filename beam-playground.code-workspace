@@ -11,8 +11,8 @@
 /* 		{
 			"name": "beam",
 			"path": "/data/shahar/code/beam"
-		},
- */		/* {
+		}, */
+ /* {
 			"name": "cassandra-java-driver",
 			"path": "../cassandra-java-driver"
 		} */

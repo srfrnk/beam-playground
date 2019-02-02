@@ -28,7 +28,7 @@ truncate-data: FORCE
 clear:
 	@clear
 
-run: clear build-beam-cassandra
+run: clear
 	gradle join-from-cassandra -Drunner=flink-local
 
 tt:
