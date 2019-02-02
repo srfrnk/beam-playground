@@ -28,17 +28,15 @@ truncate-data: FORCE
 clear:
 	@clear
 
-run:
-	@gradle --console=plain --refresh-dependencies clean write-cassandra -Drunner=flink-local
+run: clear build-beam-cassandra
+	gradle join-from-cassandra -Drunner=flink-local
 
 tt:
 	flink run -d -c org.apache.beam.examples.ReadWriteCassandra build/libs/beam-playground-0.1-all.jar
 	kubectl cp ./src mgmt-0:/beam-playground/src && kubectl cp ./build.gradle mgmt-0:/beam-playground && kubectl exec -it mgmt-0 -- bash -c gradle -p /beam-playground read-write-cassandra -Drunner=flink-cluster
 
-.ONESHELL:
-
 build-cassandra-java-driver:
-	mvn -f ../cassandra-java-driver clean package
+	mvn -f ../cassandra-java-driver package
 
 build-beam-cassandra:
-	gradle -p ../beam/sdks/java/io/cassandra clean shadowJar
+	gradle -p ../beam/sdks/java/io/cassandra shadowJar
