@@ -23,13 +23,14 @@ import org.apache.beam.sdk.values.TypeDescriptors;
 
 public class JoinFromCassandra {
 	public static void main(String[] args) {
-		Pipeline p = Pipeline.create(Config.getPipelineOptions(false));
+		Config config = Config.create(false);
+		Pipeline p = Pipeline.create(config.pipelineOptions());
 
 		PCollection<KV<String, Table1>> table1 = p
 				.apply("read table1",
-						CassandraIO.<Table1>read().withHosts(Arrays.asList(Config.getCassandraHosts()))
-								.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())
-								.withEntity(Table1.class).withTable(Config.getCassandraTable1())
+						CassandraIO.<Table1>read().withHosts(Arrays.asList(config.cassandraHosts()))
+								.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace())
+								.withEntity(Table1.class).withTable(config.cassandraTable1())
 								.withCoder(SerializableCoder.of(Table1.class)))
 				.apply("map table1",
 						MapElements
@@ -38,9 +39,9 @@ public class JoinFromCassandra {
 
 		PCollection<KV<String, Table2>> table2 = p
 				.apply("read table2",
-						CassandraIO.<Table2>read().withHosts(Arrays.asList(Config.getCassandraHosts()))
-								.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())
-								.withEntity(Table2.class).withTable(Config.getCassandraTable2())
+						CassandraIO.<Table2>read().withHosts(Arrays.asList(config.cassandraHosts()))
+								.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace())
+								.withEntity(Table2.class).withTable(config.cassandraTable2())
 								.withCoder(SerializableCoder.of(Table2.class)))
 				.apply("map table2",
 						MapElements
@@ -62,7 +63,7 @@ public class JoinFromCassandra {
 							Joiner.on(",").join(Iterables.transform(values2, row -> row.an_id)));
 				}));
 
-		results.apply(TextIO.write().to("output/join_tables").withoutSharding());
+		results.apply(TextIO.write().to(config.outputPath() + "/join_tables").withoutSharding());
 
 		p.run();
 	}

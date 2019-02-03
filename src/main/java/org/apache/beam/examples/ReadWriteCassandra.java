@@ -10,21 +10,20 @@ import org.apache.beam.sdk.values.TypeDescriptor;
 
 public class ReadWriteCassandra {
 	public static void main(String[] args) {
-		Pipeline p = Pipeline.create(Config.getPipelineOptions(false));
+		Config config = Config.create(false);
+		Pipeline p = Pipeline.create(config.pipelineOptions());
 
-		p.apply(CassandraIO.<Table1>read().withHosts(Arrays.asList(Config.getCassandraHosts()))
-				.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())
-				.withEntity(Table1.class).withTable(Config.getCassandraTable1())
-				.withCoder(SerializableCoder.of(Table1.class)))
+		p.apply(CassandraIO.<Table1>read().withHosts(Arrays.asList(config.cassandraHosts()))
+				.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace()).withEntity(Table1.class)
+				.withTable(config.cassandraTable1()).withCoder(SerializableCoder.of(Table1.class)))
 
 				.apply(MapElements.into(TypeDescriptor.of(Table1.class)).via(row1 -> {
 					return new Table1(row1.data, UUID.randomUUID());
 				}))
 
-				.apply(CassandraIO.<Table1>write()
-						.withHosts(Arrays.asList(Config.getCassandraHosts()))
-						.withPort(Config.getCassandraPort())
-						.withKeyspace(Config.getCassandraKeyspace()).withEntity(Table1.class));
+				.apply(CassandraIO.<Table1>write().withHosts(Arrays.asList(config.cassandraHosts()))
+						.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace())
+						.withEntity(Table1.class));
 
 		p.run();
 	}

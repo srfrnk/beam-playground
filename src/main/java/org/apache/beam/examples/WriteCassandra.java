@@ -15,7 +15,8 @@ import org.apache.beam.sdk.values.TypeDescriptor;
 
 public class WriteCassandra {
 	public static void main(String[] args) {
-		Pipeline p = Pipeline.create(Config.getPipelineOptions(false));
+		Config config = Config.create(false);
+		Pipeline p = Pipeline.create(config.pipelineOptions());
 
 		PCollection<String> input = p
 				.apply(Create.of(Arrays.asList("To be, or not to be: that is the question:",
@@ -37,15 +38,13 @@ public class WriteCassandra {
 
 		input.apply(MapElements.into(TypeDescriptor.of(Table1.class)).via(s -> {
 			return new Table1(s, UUID.randomUUID());
-		})).apply(CassandraIO.<Table1>write().withHosts(Arrays.asList(Config.getCassandraHosts()))
-				.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())
-				.withEntity(Table1.class));
+		})).apply(CassandraIO.<Table1>write().withHosts(Arrays.asList(config.cassandraHosts()))
+				.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace()).withEntity(Table1.class));
 
 		input.apply(MapElements.into(TypeDescriptor.of(Table2.class)).via(s -> {
 			return new Table2(s, UUID.randomUUID());
-		})).apply(CassandraIO.<Table2>write().withHosts(Arrays.asList(Config.getCassandraHosts()))
-				.withPort(Config.getCassandraPort()).withKeyspace(Config.getCassandraKeyspace())
-				.withEntity(Table2.class));
+		})).apply(CassandraIO.<Table2>write().withHosts(Arrays.asList(config.cassandraHosts()))
+				.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace()).withEntity(Table2.class));
 
 		p.run();
 	}

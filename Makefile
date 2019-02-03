@@ -29,7 +29,7 @@ clear:
 	@clear
 
 run: clear
-	gradle join-from-cassandra -Drunner=flink-local
+	gradle join-from-cassandra -Drunner=flink-cluster
 
 tt:
 	flink run -d -c org.apache.beam.examples.ReadWriteCassandra build/libs/beam-playground-0.1-all.jar

@@ -100,7 +100,7 @@ dependencies {
     // { exclude(module: '*') }
 
     // Use github/srfrnk JARs for beam-io-cassandra and cassandra-driver-core:
-    // compile("srfrnk:beam:master:sdks/java/io/cassandra/build/libs/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
+    compile("srfrnk:beam:new-cassandra-read:sdks/java/io/cassandra/build/libs/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
     //  { exclude(module: '*') }
     compile("srfrnk:java-driver:master:driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT.jar")
     // { exclude(module: '*') }
@@ -110,7 +110,7 @@ dependencies {
     // { exclude(module: '*') }
 
     // Use local FS JARs for beam-io-cassandra and cassandra-driver-core:
-    compile files("../beam/sdks/java/io/cassandra/build/libs/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
+    // compile files("../beam/sdks/java/io/cassandra/build/libs/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
     // compile files("../cassandra-java-driver/driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT-shaded.jar")
 
     // Use local FS java files for beam-io-cassandra and cassandra-driver-core:
@@ -143,6 +143,7 @@ dependencies {
 
     compile group: 'com.google.auto.value', name: 'auto-value', version: '1.6.3'
     compile group: 'com.google.auto.value', name: 'auto-value-annotations', version: '1.6.3'
+    annotationProcessor 'com.google.auto.value:auto-value:1.6.3'
 }
 
 shadowJar {
