@@ -19,7 +19,7 @@ public class ReadCassandra {
 		p.apply(CassandraIO.<Table1>read().withHosts(Arrays.asList(config.cassandraHosts()))
 				.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace()).withEntity(Table1.class)
 				.withTable(config.cassandraTable1()).withCoder(SerializableCoder.of(Table1.class))
-				.withWhere(QueryBuilder.eq("data", "Whether")))
+				.withWhere("data='Whether'"))
 
 				.apply(MapElements.into(TypeDescriptors.strings()).via(s -> {
 					return String.format("%tT %s %s", System.currentTimeMillis(), s.data, s.an_id);
