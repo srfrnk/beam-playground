@@ -6,13 +6,16 @@
 		},
 		{
 			"name": "beam-cassandra",
-			"path": "../beam/sdks/java/io/cassandra"
+			"path": "/data/shahar/code/beam/sdks/java/io/cassandra"
 		},
-/* 		{
+		{
+			"path": "/data/shahar/code/public-jars"
+		}
+		/* {
 			"name": "beam",
 			"path": "../beam"
 		}, */
- /* {
+		/* {
 			"name": "cassandra-java-driver",
 			"path": "../cassandra-java-driver"
 		} */
