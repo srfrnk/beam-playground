@@ -36,7 +36,15 @@ tt:
 	kubectl cp ./src mgmt-0:/beam-playground/src && kubectl cp ./build.gradle mgmt-0:/beam-playground && kubectl exec -it mgmt-0 -- bash -c gradle -p /beam-playground read-write-cassandra -Drunner=flink-cluster
 
 build-cassandra-java-driver:
-	mvn -f ../cassandra-java-driver package
+	mvn -f ../cassandra-java-driver/driver-core package
+	cp ../cassandra-java-driver/driver-core/target/*-shaded.jar ../public-jars
+
+	mvn -f ../cassandra-java-driver/driver-mapping package
+	cp ../cassandra-java-driver/driver-mapping/target/*-shaded.jar ../public-jars
+
+	mvn -f ../cassandra-java-driver/driver-extras package
+	cp ../cassandra-java-driver/driver-extras/target/*-shaded.jar ../public-jars
 
 build-beam-cassandra:
 	gradle -p ../beam/sdks/java/io/cassandra shadowJar
+	cp ../beam/sdks/java/io/cassandra/build/libs/*.jar ../public-jars

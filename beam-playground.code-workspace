@@ -10,7 +10,7 @@
 		},
 		{
 			"path": "/data/shahar/code/public-jars"
-		}
+		},
 		/* {
 			"name": "beam",
 			"path": "../beam"
@@ -18,7 +18,7 @@
 		/* {
 			"name": "cassandra-java-driver",
 			"path": "../cassandra-java-driver"
-		} */
+		}, */
 	],
 	"settings": {
 		"java.configuration.updateBuildConfiguration": "automatic"

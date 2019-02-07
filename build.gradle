@@ -100,7 +100,7 @@ dependencies {
     // { exclude(module: '*') }
 
     // Use github/srfrnk JARs for beam-io-cassandra and cassandra-driver-core:
-    compile("srfrnk:beam:master:sdks/java/io/cassandra/build/libs/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
+    compile("srfrnk:public-jars:master:beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
     //  { exclude(module: '*') }
     // compile("srfrnk:java-driver:master:driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT.jar")
     // { exclude(module: '*') }
