@@ -11,14 +11,9 @@
 		{
 			"path": "/data/shahar/code/public-jars"
 		},
-		/* {
-			"name": "beam",
-			"path": "../beam"
-		}, */
-		/* {
-			"name": "cassandra-java-driver",
-			"path": "../cassandra-java-driver"
-		}, */
+		{
+			"path": "/data/shahar/code/mooving/mooving-dev-ops"
+		}
 	],
 	"settings": {
 		"java.configuration.updateBuildConfiguration": "automatic"

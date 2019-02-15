@@ -6,11 +6,43 @@ clone-beam-cassandra:
 clone-cassandra-java-driver:
 	cd .. && git clone git@github.com:srfrnk/java-driver.git cassandra-java-driver
 
+start-minikube: FORCE
+	minikube start
+
+stop-minikube: FORCE
+	minikube stop
+
 start-cassandra: FORCE
-	docker run -d --rm --name cassandra --network host cassandra
+	ks apply --dir ./k8s/cassandra minikube
 
 stop-cassandra: FORCE
-	docker kill cassandra
+	ks delete --dir ./k8s/cassandra minikube
+
+start-flink: FORCE
+	ks apply --dir ./k8s/flink minikube
+
+stop-flink: FORCE
+	ks delete --dir ./k8s/flink minikube
+
+start-kafka: FORCE
+	ks apply --dir ./k8s/kafka minikube
+
+stop-kafka: FORCE
+	ks delete --dir ./k8s/kafka minikube
+
+start-proxy: FORCE
+	parallel ::: \
+		"kubectl proxy" \
+		"kubectl port-forward statefulset/zoo 2181:2181" \
+		"kubectl port-forward statefulset/cassandra 9042:9042" \
+		"kubectl port-forward svc/flink-jobmanager 8081:8081" \
+		"kubectl port-forward pod/kafka-0 9094:9094 32400:9092" \
+		"kubectl port-forward pod/kafka-1 32401:9092" \
+		"kubectl port-forward pod/kafka-2 32402:9092"
+
+create-flink-image: FORCE
+	docker build ./k8s/flink/image -t srfrnk/flink:latest
+	docker push srfrnk/flink:latest
 
 create-schema: FORCE
 	cqlsh -e "CREATE KEYSPACE IF NOT EXISTS test WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1}; \
