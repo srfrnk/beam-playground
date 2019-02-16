@@ -26,6 +26,9 @@
 ### GNU Parallel
 [See here...](https://www.gnu.org/software/parallel/)
 
+### kafkacat
+[See here...](https://github.com/edenhill/kafkacat)
+
 ## Prepare the environment
 
 ### Start minikube
