@@ -51,13 +51,14 @@ public abstract class Config {
 			LOG.info("Using FlinkRunner Cluster");
 			FlinkPipelineOptions pipelineOptions = PipelineOptionsFactory.create().as(FlinkPipelineOptions.class);
 			pipelineOptions.setRunner(FlinkRunner.class);
-			pipelineOptions.setFlinkMaster("flink-jobmanager.flink:8081");
+			pipelineOptions.setFlinkMaster("localhost:8081");
 			pipelineOptions.setFilesToStage(Arrays.asList("./build/libs/beam-playground-0.1-all.jar"));
+			pipelineOptions.setParallelism(3);
 			pipelineOptions.setTempLocation("/tmp");
 			// pipelineOptions.setStreaming(streaming);
-			builder.setPipelineOptions(pipelineOptions).setCassandraHosts("cassandra.cassandra").setCassandraPort(9042)
+			builder.setPipelineOptions(pipelineOptions).setCassandraHosts("cassandra.default.svc.cluster.local").setCassandraPort(9042)
 					.setCassandraKeyspace("test").setCassandraTable1("table1").setCassandraTable2("table2")
-					.setKafkaUrls("broker.kafka.svc.cluster.local:9092").setKafkaTopic("test_topic")
+					.setKafkaUrls("kafka-broker.default.svc.cluster.local:9092").setKafkaTopic("test_topic")
 					.setKafkaConsumerGroupId("test_grp_1").setoutputPath("/tmp");
 			break;
 		}
