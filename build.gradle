@@ -48,6 +48,13 @@ task('join-from-cassandra', dependsOn: 'shadowJar', type: JavaExec)
     systemProperty "runner", System.getProperty("runner")
 }
 
+task('join-from-cassandra-to-cassandra', dependsOn: 'shadowJar', type: JavaExec)
+{
+    mainClassName = main = "org.apache.beam.examples.JoinFromCassandraToCassandra"
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperty "runner", System.getProperty("runner")
+}
+
 repositories {
      maven { url "https://repository.apache.org/content/repositories/snapshots/" }
      maven { url "http://repo.maven.apache.org/maven2" }
@@ -100,7 +107,7 @@ dependencies {
     // { exclude(module: '*') }
 
     // Use github/srfrnk JARs for beam-io-cassandra and cassandra-driver-core:
-    compile("srfrnk:public-jars:master:beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
+    // compile("srfrnk:public-jars:master:beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
     //  { exclude(module: '*') }
     // compile("srfrnk:java-driver:master:driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT.jar")
     // { exclude(module: '*') }
@@ -110,7 +117,7 @@ dependencies {
     // { exclude(module: '*') }
 
     // Use local FS JARs for beam-io-cassandra and cassandra-driver-core:
-    // compile files("../beam/sdks/java/io/cassandra/build/libs/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
+    compile files("../public-jars/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
     // compile files("../cassandra-java-driver/driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT-shaded.jar")
 
     // Use local FS java files for beam-io-cassandra and cassandra-driver-core:

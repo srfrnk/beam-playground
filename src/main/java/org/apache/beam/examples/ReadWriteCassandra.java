@@ -14,16 +14,17 @@ public class ReadWriteCassandra {
 		Pipeline p = Pipeline.create(config.pipelineOptions());
 
 		p.apply(CassandraIO.<Table1>read().withHosts(Arrays.asList(config.cassandraHosts()))
-				.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace()).withEntity(Table1.class)
-				.withTable(config.cassandraTable1()).withCoder(SerializableCoder.of(Table1.class)))
+				.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace())
+				.withEntity(Table1.class).withTable(config.cassandraTable1())
+				.withCoder(SerializableCoder.of(Table1.class)).withWhere("data='Whether'"))
 
-				.apply(MapElements.into(TypeDescriptor.of(Table1.class)).via(row1 -> {
-					return new Table1(row1.data, UUID.randomUUID());
+				.apply(MapElements.into(TypeDescriptor.of(Table3.class)).via(row1 -> {
+					return new Table3(row1.data, UUID.randomUUID(), UUID.randomUUID());
 				}))
 
-				.apply(CassandraIO.<Table1>write().withHosts(Arrays.asList(config.cassandraHosts()))
+				.apply(CassandraIO.<Table3>write().withHosts(Arrays.asList(config.cassandraHosts()))
 						.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace())
-						.withEntity(Table1.class));
+						.withEntity(Table3.class));
 
 		p.run();
 	}

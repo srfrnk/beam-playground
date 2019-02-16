@@ -45,9 +45,10 @@ create-flink-image: FORCE
 	docker push srfrnk/flink:latest
 
 create-schema: FORCE
-	cqlsh -e "CREATE KEYSPACE IF NOT EXISTS test WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1}; \
-		CREATE TABLE IF NOT EXISTS test.table1 ( data text, an_id uuid, PRIMARY KEY(data) ); \
-		CREATE TABLE IF NOT EXISTS test.table2 ( data text, an_id uuid, PRIMARY KEY(data) );"
+	cqlsh -e "CREATE KEYSPACE IF NOT EXISTS test WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3}; \
+		CREATE TABLE IF NOT EXISTS test.table1 ( data text, an_id uuid,another_id uuid, PRIMARY KEY(data,an_id) ); \
+		CREATE TABLE IF NOT EXISTS test.table2 ( data text, an_id uuid,another_id uuid, PRIMARY KEY(data,an_id) ); \
+		CREATE TABLE IF NOT EXISTS test.table3 ( data text, an_id uuid,another_id uuid, PRIMARY KEY(data,an_id) );"
 
 drop-schema: FORCE
 	cqlsh -e "DROP TABLE IF EXISTS test.table1;\

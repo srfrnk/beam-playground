@@ -2,8 +2,6 @@ package org.apache.beam.examples;
 
 import java.util.Arrays;
 
-import com.datastax.driver.core.querybuilder.QueryBuilder;
-
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.SerializableCoder;
 import org.apache.beam.sdk.io.TextIO;

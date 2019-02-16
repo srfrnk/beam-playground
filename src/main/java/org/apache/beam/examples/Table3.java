@@ -6,9 +6,9 @@ import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
-@Table(keyspace = "test", name = "table1", readConsistency = "ONE", writeConsistency = "ONE",
+@Table(keyspace = "test", name = "table3", readConsistency = "ONE", writeConsistency = "ONE",
 		caseSensitiveKeyspace = false, caseSensitiveTable = false)
-public class Table1 implements Serializable {
+public class Table3 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@PartitionKey
@@ -21,10 +21,10 @@ public class Table1 implements Serializable {
 	@Column(name = "another_id")
 	public UUID another_id;
 
-	public Table1() {
+	public Table3() {
 	}
 
-	public Table1(String data, UUID an_id, UUID another_id) {
+	public Table3(String data, UUID an_id, UUID another_id) {
 		this.data = data;
 		this.an_id = an_id;
 		this.another_id = another_id;
@@ -32,7 +32,7 @@ public class Table1 implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		Table1 other = (Table1) obj;
+		Table3 other = (Table3) obj;
 		return this.data.equals(other.data) && this.an_id.equals(other.an_id);
 	}
 }
