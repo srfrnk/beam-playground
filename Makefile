@@ -40,6 +40,11 @@ start-proxy: FORCE
 		"kubectl port-forward pod/kafka-1 32401:9092" \
 		"kubectl port-forward pod/kafka-2 32402:9092"
 
+watch-pods: FORCE
+	watch "kubectl get pods"
+
+start-all: FORCE start-minikube watch-pods
+
 create-flink-image: FORCE
 	docker build ./k8s/flink/image -t srfrnk/flink:latest
 	docker push srfrnk/flink:latest

@@ -117,7 +117,7 @@ dependencies {
     // { exclude(module: '*') }
 
     // Use local FS JARs for beam-io-cassandra and cassandra-driver-core:
-    compile files("../public-jars/beam-sdks-java-io-cassandra-2.10.0-SNAPSHOT.jar")
+    compile files("../public-jars/beam-sdks-java-io-cassandra-2.12.0-SNAPSHOT.jar")
     // compile files("../cassandra-java-driver/driver-core/target/cassandra-driver-core-3.6.1-SNAPSHOT-shaded.jar")
 
     // Use local FS java files for beam-io-cassandra and cassandra-driver-core:
