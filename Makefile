@@ -45,6 +45,10 @@ proxy: FORCE
 		"kubectl port-forward pod/kafka-1 32401:9092" \
 		"kubectl port-forward pod/kafka-2 32402:9092"
 
+kill-proxy: FORCE
+	- ps aux | grep "kubectl port-forward" | awk '{print $$2}' | xargs kill
+	- ps aux | grep "kubectl proxy" | awk '{print $$2}' | xargs kill
+
 watch-pods: FORCE
 	watch "kubectl get pods"
 
