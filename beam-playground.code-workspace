@@ -5,8 +5,8 @@
 			"path": "."
 		},
 		{
-			"name": "beam-cassandra",
-			"path": "../beam/sdks/java/io/cassandra"
+			"name": "beam",
+			"path": "../beam"
 		},
 		{
 			"path": "../public-jars"

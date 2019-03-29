@@ -1,3 +1,5 @@
+MINIKUBE_IP=$(shell minikube ip)
+
 FORCE:
 
 clone-beam-cassandra:
@@ -13,24 +15,27 @@ stop-minikube: FORCE
 	minikube stop
 
 start-cassandra: FORCE
+	ks env --dir ./k8s/cassandra set minikube --server=https://$(MINIKUBE_IP):8443
 	ks apply --dir ./k8s/cassandra minikube
 
 stop-cassandra: FORCE
 	ks delete --dir ./k8s/cassandra minikube
 
 start-flink: FORCE
+	ks env --dir ./k8s/flink set minikube --server=https://$(MINIKUBE_IP):8443
 	ks apply --dir ./k8s/flink minikube
 
 stop-flink: FORCE
 	ks delete --dir ./k8s/flink minikube
 
 start-kafka: FORCE
+	ks env --dir ./k8s/kafka set minikube --server=https://$(MINIKUBE_IP):8443
 	ks apply --dir ./k8s/kafka minikube
 
 stop-kafka: FORCE
 	ks delete --dir ./k8s/kafka minikube
 
-start-proxy: FORCE
+proxy: FORCE
 	parallel ::: \
 		"kubectl proxy" \
 		"kubectl port-forward statefulset/zoo 2181:2181" \
@@ -67,11 +72,7 @@ clear:
 	@clear
 
 run: clear
-	gradle join-from-cassandra -Drunner=flink-cluster
-
-tt:
-	flink run -d -c org.apache.beam.examples.ReadWriteCassandra build/libs/beam-playground-0.1-all.jar
-	kubectl cp ./src mgmt-0:/beam-playground/src && kubectl cp ./build.gradle mgmt-0:/beam-playground && kubectl exec -it mgmt-0 -- bash -c gradle -p /beam-playground read-write-cassandra -Drunner=flink-cluster
+	gradle join-from-cassandra-to-cassandra -Drunner=direct
 
 build-cassandra-java-driver:
 	mvn -f ../cassandra-java-driver/driver-core package
@@ -83,6 +84,21 @@ build-cassandra-java-driver:
 	mvn -f ../cassandra-java-driver/driver-extras package
 	cp ../cassandra-java-driver/driver-extras/target/*-shaded.jar ../public-jars
 
-build-beam-cassandra:
+build-beam:
+	gradle -p ../beam/model/pipeline shadowJar
+	cp ../beam/model/pipeline/build/libs/*-SNAPSHOT.jar ../public-jars
+
+	gradle -p ../beam/sdks/java/core shadowJar
+	cp ../beam/sdks/java/core/build/libs/*-SNAPSHOT.jar ../public-jars
+
 	gradle -p ../beam/sdks/java/io/cassandra shadowJar
-	cp ../beam/sdks/java/io/cassandra/build/libs/*.jar ../public-jars
+	cp ../beam/sdks/java/io/cassandra/build/libs/*-SNAPSHOT.jar ../public-jars
+
+	gradle -p ../beam/runners/core-java shadowJar
+	cp ../beam/runners/core-java/build/libs/*-SNAPSHOT.jar ../public-jars
+
+	gradle -p ../beam/runners/flink shadowJar
+	cp ../beam/runners/flink/build/libs/*-SNAPSHOT.jar ../public-jars
+
+	gradle -p ../beam/runners/direct-java shadowJar
+	cp ../beam/runners/direct-java/build/libs/*-SNAPSHOT.jar ../public-jars

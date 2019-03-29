@@ -1,7 +1,6 @@
 package org.apache.beam.examples;
 
 import java.util.Arrays;
-
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.SerializableCoder;
 import org.apache.beam.sdk.io.TextIO;
@@ -15,10 +14,11 @@ public class ReadCassandra {
 		Pipeline p = Pipeline.create(config.pipelineOptions());
 
 		p.apply(CassandraIO.<Table1>read().withHosts(Arrays.asList(config.cassandraHosts()))
-				.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace()).withEntity(Table1.class)
-				.withTable(config.cassandraTable1()).withCoder(SerializableCoder.of(Table1.class))
-				.withWhere("data='Whether'"))
-
+				.withPort(config.cassandraPort()).withKeyspace(config.cassandraKeyspace())
+				.withTable(config.cassandraTable1()).withEntity(Table1.class)
+				.withCoder(SerializableCoder.of(Table1.class))
+				.withQuery(String.format("select * from %s.%s where data='Whether'",
+						config.cassandraKeyspace(), config.cassandraTable1())))
 				.apply(MapElements.into(TypeDescriptors.strings()).via(s -> {
 					return String.format("%tT %s %s", System.currentTimeMillis(), s.data, s.an_id);
 				}))
