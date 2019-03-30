@@ -1,18 +1,14 @@
 {
-	"folders": [
-		{
-			"name": "beam-playground",
-			"path": "."
-		},
-		{
-			"name": "beam",
-			"path": "../beam"
-		},
-		{
-			"path": "../public-jars"
-		}
-	],
-	"settings": {
-		"java.configuration.updateBuildConfiguration": "automatic"
-	}
+    "folders": [{
+        "name": "beam-playground",
+        "path": "."
+    }, {
+        "name": "beam",
+        "path": "../beam"
+    }, {
+        "path": "../public-jars"
+    }],
+    "settings": {
+        "java.configuration.updateBuildConfiguration": "automatic"
+    }
 }

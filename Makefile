@@ -14,11 +14,20 @@ start-minikube: FORCE
 stop-minikube: FORCE
 	minikube stop
 
+start-registry-proxy: FORCE
+	ks env --dir ./k8s/kube-registry-proxy set minikube --server=https://$(MINIKUBE_IP):8443
+	ks apply --dir ./k8s/kube-registry-proxy minikube
+
+stop-registry-proxy: FORCE
+	ks env --dir ./k8s/kube-registry-proxy set minikube --server=https://$(MINIKUBE_IP):8443
+	ks delete --dir ./k8s/kube-registry-proxy minikube
+
 start-cassandra: FORCE
 	ks env --dir ./k8s/cassandra set minikube --server=https://$(MINIKUBE_IP):8443
 	ks apply --dir ./k8s/cassandra minikube
 
 stop-cassandra: FORCE
+	ks env --dir ./k8s/cassandra set minikube --server=https://$(MINIKUBE_IP):8443
 	ks delete --dir ./k8s/cassandra minikube
 
 start-flink: FORCE
@@ -26,6 +35,7 @@ start-flink: FORCE
 	ks apply --dir ./k8s/flink minikube
 
 stop-flink: FORCE
+	ks env --dir ./k8s/flink set minikube --server=https://$(MINIKUBE_IP):8443
 	ks delete --dir ./k8s/flink minikube
 
 start-kafka: FORCE
@@ -33,6 +43,7 @@ start-kafka: FORCE
 	ks apply --dir ./k8s/kafka minikube
 
 stop-kafka: FORCE
+	ks env --dir ./k8s/kafka set minikube --server=https://$(MINIKUBE_IP):8443
 	ks delete --dir ./k8s/kafka minikube
 
 proxy: FORCE
@@ -54,9 +65,17 @@ watch-pods: FORCE
 
 start-all: FORCE start-minikube watch-pods
 
-create-flink-image: FORCE
-	docker build ./k8s/flink/image -t srfrnk/flink:latest
-	docker push srfrnk/flink:latest
+build-images: TIMESTAMP=$(shell date +%y%m%d-%H%M -u)
+build-images: FORCE
+	docker build ./k8s/flink/image -t srfrnk/flink:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}"
+	docker tag srfrnk/flink:${TIMESTAMP} srfrnk/flink:latest
+	# docker push srfrnk/flink:${TIMESTAMP}
+	# docker push srfrnk/flink:latest
+
+	docker build ./k8s/cassandra/image -t srfrnk/cassandra:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}"
+	docker tag srfrnk/cassandra:${TIMESTAMP} srfrnk/cassandra:latest
+	# docker push srfrnk/cassandra:${TIMESTAMP}
+	# docker push srfrnk/cassandra:latest
 
 create-schema: FORCE
 	cqlsh -e "CREATE KEYSPACE IF NOT EXISTS test WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3}; \
@@ -106,3 +125,6 @@ build-beam:
 
 	gradle -p ../beam/runners/direct-java shadowJar
 	cp ../beam/runners/direct-java/build/libs/*-SNAPSHOT.jar ../public-jars
+
+setup-minikube-docker-registry:
+	eval "$$(minikube docker-env)"

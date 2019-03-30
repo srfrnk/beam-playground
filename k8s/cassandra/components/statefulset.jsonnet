@@ -9,7 +9,7 @@
   },
   spec: {
     serviceName: 'cassandra',
-    replicas: 3,
+    replicas: 1,
     selector: {
       matchLabels: {
         app: 'cassandra',
@@ -26,7 +26,7 @@
         containers: [
           {
             name: 'cassandra',
-            image: 'gcr.io/google-samples/cassandra:v13',
+            image: 'srfrnk/cassandra:latest',
             imagePullPolicy: 'Always',
             ports: [
               {
@@ -113,7 +113,7 @@
                 command: [
                   '/bin/bash',
                   '-c',
-                  '/ready-probe.sh',
+                  'ready-probe.sh',
                 ],
               },
               initialDelaySeconds: 15,
@@ -122,7 +122,7 @@
             volumeMounts: [
               {
                 name: 'cassandra-data',
-                mountPath: '/cassandra_data',
+                mountPath: '/var/lib/cassandra',
               },
             ],
           },

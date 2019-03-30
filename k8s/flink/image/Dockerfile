@@ -22,20 +22,20 @@ FROM openjdk:8-jre-alpine
 RUN apk add --no-cache bash libc6-compat snappy 'su-exec>=0.2'
 
 # Configure Flink version
-ENV FLINK_VERSION=1.7.1 \
-    HADOOP_SCALA_VARIANT=hadoop28-scala_2.11
+ENV FLINK_VERSION=1.7.2 \
+  HADOOP_SCALA_VARIANT=hadoop28-scala_2.11
 
 # Prepare environment
 ENV FLINK_HOME=/opt/flink
 ENV PATH=$FLINK_HOME/bin:$PATH
 RUN addgroup -S -g 9999 flink && \
-    adduser -D -S -H -u 9999 -G flink -h $FLINK_HOME flink
+  adduser -D -S -H -u 9999 -G flink -h $FLINK_HOME flink
 WORKDIR $FLINK_HOME
 
 ENV FLINK_URL_FILE_PATH=flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-${HADOOP_SCALA_VARIANT}.tgz
 # Not all mirrors have the .asc files
 ENV FLINK_TGZ_URL=https://www.apache.org/dyn/closer.cgi?action=download&filename=${FLINK_URL_FILE_PATH} \
-    FLINK_ASC_URL=https://www.apache.org/dist/${FLINK_URL_FILE_PATH}.asc
+  FLINK_ASC_URL=https://www.apache.org/dist/${FLINK_URL_FILE_PATH}.asc
 
 # For GPG verification instead of relying on key servers
 RUN wget -nv -O /KEYS https://raw.githubusercontent.com/docker-flink/docker-flink/63b19a904fa8bfd1322f1d59fdb226c82b9186c7/1.7/hadoop28-scala_2.11-alpine/KEYS
@@ -43,10 +43,10 @@ RUN wget -nv -O /KEYS https://raw.githubusercontent.com/docker-flink/docker-flin
 # Install Flink
 RUN set -ex; \
   apk add --no-cache --virtual .build-deps \
-    ca-certificates \
-    gnupg \
-    openssl \
-    tar \
+  ca-certificates \
+  gnupg \
+  openssl \
+  tar \
   ; \
   \
   wget -nv -O flink.tgz "$FLINK_TGZ_URL"; \
@@ -73,3 +73,6 @@ COPY flink-conf.taskmanager.yaml /flink-config/flink-conf.taskmanager.yaml
 ENTRYPOINT ["/docker-entrypoint.sh"]
 EXPOSE 6123 8081
 CMD ["help"]
+ARG VERSION
+LABEL VERSION=${VERSION}
+ENV IMAGE_VERSION=${VERSION}
