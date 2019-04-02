@@ -9,7 +9,7 @@
   },
   spec: {
     serviceName: 'cassandra',
-    replicas: 1,
+    replicas: 3,
     selector: {
       matchLabels: {
         app: 'cassandra',
