@@ -120,6 +120,9 @@ build-beam:
 	gradle -p ../beam/runners/core-java shadowJar
 	cp ../beam/runners/core-java/build/libs/*-SNAPSHOT.jar ../public-jars
 
+	gradle -p ../beam/runners/core-construction-java shadowJar
+	cp ../beam/runners/core-construction-java/build/libs/*-SNAPSHOT.jar ../public-jars
+
 	gradle -p ../beam/runners/flink shadowJar
 	cp ../beam/runners/flink/build/libs/*-SNAPSHOT.jar ../public-jars
 
