@@ -1,38 +1,50 @@
+local imageVersion = std.extVar('IMAGE_VERSION');
 {
-  apiVersion: 'extensions/v1beta1',
-  kind: 'Deployment',
+  apiVersion: 'apps/v1',
+  kind: 'StatefulSet',
   metadata: {
-    name: 'flink-taskmanager',
+    name: 'flink-jobmanager',
   },
   spec: {
-    replicas: 3,
+    serviceName: 'flink-jobmanager',
+    replicas: 1,
+    selector: {
+      matchLabels: {
+        app: 'flink',
+        component: 'jobmanager',
+      },
+    },
     template: {
       metadata: {
         labels: {
           app: 'flink',
-          component: 'taskmanager',
+          component: 'jobmanager',
         },
       },
       spec: {
         containers: [
           {
-            name: 'taskmanager',
-            image: 'srfrnk/flink:latest',
+            name: 'jobmanager',
+            image: 'srfrnk/flink:' + imageVersion,
             args: [
-              'taskmanager',
+              'jobmanager',
             ],
             ports: [
               {
-                containerPort: 6121,
-                name: 'data',
+                containerPort: 6123,
+                name: 'rpc',
               },
               {
-                containerPort: 6122,
-                name: 'rpc',
+                containerPort: 6124,
+                name: 'blob',
               },
               {
                 containerPort: 6125,
                 name: 'query',
+              },
+              {
+                containerPort: 8081,
+                name: 'ui',
               },
             ],
             resources: {

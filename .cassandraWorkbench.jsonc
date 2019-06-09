@@ -1,0 +1,21 @@
+[
+    // AllowAllAuthenticator
+    {
+        "name": "Local",
+        "contactPoints": [
+            "127.0.0.1"
+        ]
+    },
+    //PasswordAuthenticator
+    {
+        "name": "Local",
+        "contactPoints": [
+            "127.0.0.1"
+        ],
+        "authProvider": {
+            "class": "PasswordAuthenticator",
+            "username": "yourUsername",
+            "password": "yourPassword"
+        }
+    }
+]

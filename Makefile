@@ -14,36 +14,13 @@ start-minikube: FORCE
 stop-minikube: FORCE
 	minikube stop
 
-start-cassandra: FORCE
-	ks env --dir ./k8s/cassandra set minikube --server=https://$(MINIKUBE_IP):8443
-	ks apply --dir ./k8s/cassandra minikube
-
-stop-cassandra: FORCE
-	ks env --dir ./k8s/cassandra set minikube --server=https://$(MINIKUBE_IP):8443
-	ks delete --dir ./k8s/cassandra minikube
-
-start-flink: FORCE
-	ks env --dir ./k8s/flink set minikube --server=https://$(MINIKUBE_IP):8443
-	ks apply --dir ./k8s/flink minikube
-
-stop-flink: FORCE
-	ks env --dir ./k8s/flink set minikube --server=https://$(MINIKUBE_IP):8443
-	ks delete --dir ./k8s/flink minikube
-
-start-kafka: FORCE
-	ks env --dir ./k8s/kafka set minikube --server=https://$(MINIKUBE_IP):8443
-	ks apply --dir ./k8s/kafka minikube
-
-stop-kafka: FORCE
-	ks env --dir ./k8s/kafka set minikube --server=https://$(MINIKUBE_IP):8443
-	ks delete --dir ./k8s/kafka minikube
-
 proxy: FORCE
 	parallel ::: \
 		"kubectl proxy" \
 		"kubectl port-forward statefulset/zoo 2181:2181" \
 		"kubectl port-forward statefulset/cassandra 9042:9042" \
 		"kubectl port-forward svc/flink-jobmanager 8081:8081" \
+		"kubectl port-forward svc/nifi 8082:8082" \
 		"kubectl port-forward pod/kafka-0 9094:9094 32400:9092" \
 		"kubectl port-forward pod/kafka-1 32401:9092" \
 		"kubectl port-forward pod/kafka-2 32402:9092"
@@ -57,13 +34,14 @@ watch-pods: FORCE
 
 start-all: FORCE start-minikube start-kafka start-cassandra start-flink watch-pods
 
-build-images: TIMESTAMP=$(shell date +%y%m%d-%H%M -u)
-build-images: FORCE
+deploy: TIMESTAMP=$(shell date +%y%m%d-%H%M -u)
+deploy: FORCE
 	eval "$$(minikube docker-env)" && \
-	docker build ./k8s/flink/image -t srfrnk/flink:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}" && \
-	docker tag srfrnk/flink:${TIMESTAMP} srfrnk/flink:latest && \
-	docker build ./k8s/cassandra/image -t srfrnk/cassandra:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}" && \
-	docker tag srfrnk/cassandra:${TIMESTAMP} srfrnk/cassandra:latest
+	docker build ./k8s/images/flink -t srfrnk/flink:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}" && \
+	docker build ./k8s/images/cassandra -t srfrnk/cassandra:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}" && \
+	docker build ./k8s/images/nifi -t srfrnk/nifi:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}" && \
+	ks env --dir ./k8s set minikube --server=https://$(MINIKUBE_IP):8443 && \
+	ks apply --dir ./k8s minikube -V IMAGE_VERSION=${TIMESTAMP}
 
 create-schema: FORCE
 	cqlsh -e "CREATE KEYSPACE IF NOT EXISTS test WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3}; \
@@ -118,4 +96,4 @@ build-beam:
 	cp ../beam/runners/direct-java/build/libs/*-SNAPSHOT.jar ../public-jars
 
 setup-minikube-docker-registry:
-	eval "$$(minikube docker-env)"
+	eval "$(minikube docker-env)"

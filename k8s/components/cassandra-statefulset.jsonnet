@@ -1,3 +1,4 @@
+local imageVersion = std.extVar('IMAGE_VERSION');
 {
   apiVersion: 'apps/v1',
   kind: 'StatefulSet',
@@ -26,8 +27,7 @@
         containers: [
           {
             name: 'cassandra',
-            image: 'srfrnk/cassandra:latest',
-            imagePullPolicy: 'Always',
+            image: 'srfrnk/cassandra:' + imageVersion,
             ports: [
               {
                 containerPort: 7000,

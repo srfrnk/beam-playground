@@ -3,11 +3,11 @@ environments:
   minikube:
     destination:
       namespace: default
-      server: https://192.168.39.119:8443
+      server: https://192.168.39.221:8443
     k8sVersion: v1.10.0
     path: minikube
 kind: ksonnet.io/app
-name: kafka
+name: k8s
 registries:
   incubator:
     protocol: github

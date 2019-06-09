@@ -7,9 +7,9 @@ k.core.v1.list.new([
     },
     apiVersion: 'v1',
     data: {
-      'init.sh': importstr '../vendor/init.sh',
-      'server.properties': importstr '../vendor/server.properties',
-      'log4j.properties': importstr '../vendor/log4j.properties',
+      'init.sh': importstr '../vendor/kafka/init.sh',
+      'server.properties': importstr '../vendor/kafka/server.properties',
+      'log4j.properties': importstr '../vendor/kafka/log4j.properties',
     },
   },
   {
