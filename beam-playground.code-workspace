@@ -1,13 +1,18 @@
 {
-    "folders": [{
-        "name": "beam-playground",
-        "path": "."
-    }, {
-        "name": "beam",
-        "path": "../beam"
-    }, {
-        "path": "../public-jars"
-    }],
+    "folders": [
+        {
+            "name": "beam-playground",
+            "path": "."
+        },
+        {
+            "name": "public-jars",
+            "path": "/data/shahar/code/public-jars"
+        },
+        {
+            "name": "beam",
+            "path": "/data/shahar/code/beam"
+        }
+    ],
     "settings": {
         "java.configuration.updateBuildConfiguration": "automatic"
     }
