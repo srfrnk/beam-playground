@@ -21,6 +21,7 @@ proxy: FORCE
 		"kubectl port-forward statefulset/cassandra 9042:9042" \
 		"kubectl port-forward svc/flink-jobmanager 8081:8081" \
 		"kubectl port-forward svc/nifi 8082:8082" \
+		"kubectl port-forward svc/red-node 1880:1880" \
 		"kubectl port-forward pod/kafka-0 9094:9094 32400:9092" \
 		"kubectl port-forward pod/kafka-1 32401:9092" \
 		"kubectl port-forward pod/kafka-2 32402:9092"
@@ -40,6 +41,7 @@ deploy: FORCE
 	docker build ./k8s/images/flink -t srfrnk/flink:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}" && \
 	docker build ./k8s/images/cassandra -t srfrnk/cassandra:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}" && \
 	docker build ./k8s/images/nifi -t srfrnk/nifi:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}" && \
+	docker build ./k8s/images/red-node -t srfrnk/red-node:${TIMESTAMP} --build-arg "VERSION=${TIMESTAMP}" && \
 	ks env --dir ./k8s set minikube --server=https://$(MINIKUBE_IP):8443 && \
 	ks apply --dir ./k8s minikube -V IMAGE_VERSION=${TIMESTAMP}
 
